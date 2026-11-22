@@ -12,6 +12,10 @@ jobs:
   release:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,6 +25,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -30,9 +35,9 @@ jobs:
 
       - name: Create release archive
         run: |
-          tar -czf dist.tar.gz dist
+          tar -czf ../dist.tar.gz dist
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist.tar.gz
+          files: frontend/dist.tar.gz
