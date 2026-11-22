@@ -33,11 +33,14 @@ jobs:
       - name: Build Angular application
         run: npx ng build
 
-      - name: Create release archive
+      - name: Verify build output
+        run: ls -la ../dist
+
+      - name: Create archive
         run: |
-          tar -czf ../dist.tar.gz dist
+          tar -czf ../dist.tar.gz -C ../dist .
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: frontend/dist.tar.gz
+          files: dist.tar.gz
